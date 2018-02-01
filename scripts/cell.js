@@ -61,94 +61,65 @@ class Cell{
 
     // moves cell according to dir and neighbours in direction dir
     move(dir){
-        //TODO: IMPROVE THIS PIECE OF SHIT CODE.
         let movedCell = 1;
 
         this.justMerged = 0;
         if(this.val == 0) return 0;
-        if(dir == "left" && this.grid_c > 0 || dir == "right" && this.grid_c < this.last_c){
-            let srt = this.grid_c + ((dir == "left") ? -1 : 1);
-            let inc = (dir == "left") ? -1 : 1;
-            let end_i = (dir == "left") ? -1 : this.no_cells;
-            let condt = function(i, dir){
-                if(dir == "left") return i >= -1;
-                else return i <= grid.cell_no;
-            };
 
-            for(let i = srt; condt(i, dir); i += inc){
-                if(i == end_i){
-                    let r = this.grid_r;
-                    let c = end_i - inc;
+        if(dir == "left" && this.grid_c == 0 || dir == "right" && this.grid_c == this.last_c) return 0;
+        if(dir == "up" && this.grid_r == 0 || dir == "down" && this.grid_r == this.last_c) return 0;
 
-                    grid.grid[r][c].val = this.val;
-                    this.val = 0;
-                } else{
-                    let neighbr = grid.grid[this.grid_r][i];
-                    let n_v = neighbr.val;
+        let g_i = (dir == "left" || dir == "right") ? this.grid_r : this.grid_c;
+        let d = (dir == "left" || dir == "up") ? 1 : 0;
 
-                    if(n_v == this.val && !neighbr.justMerged){
-                        // merge with neighbour
-                        neighbr.val += this.val;
-                        this.val = 0;
-                        player.score += n_v;
-                        neighbr.justMerged = true;
-                        break;
-                    } else if(n_v != 0 && i != srt){
-                        // move cell next to neighbour
-                        grid.grid[this.grid_r][i - inc].val = this.val;
-                        this.val = 0;
-                        break;
-                    } else if(n_v != 0 && i == srt){
-                        // cell doesn't move
-                        movedCell = 0;
-                        break;
-                    }
-                }
+        let srt = (dir == "left" || dir == "right") ? this.grid_c : this.grid_r;
+            srt += (d) ? -1 : 1;
+
+        let inc = (d) ? -1 : 1;
+        let end_i = (d) ? -1 : this.no_cells;
+
+        let condt = function(i, dir){
+            if(dir) return i >= -1;
+            else return i <= grid.cell_no;
+        };
+
+        let get_c = function(dir, i, g_i){
+            if(dir == "left" || dir == "right"){
+                return grid.grid[g_i][i];
+            } else{
+                return grid.grid[i][g_i];
             }
         }
 
-        else if(dir == "up" && this.grid_r > 0 || dir == "down" && this.grid_r < this.last_c){
-            let srt = this.grid_r + ((dir == "up") ? -1 : 1);
-            let inc = (dir == "up") ? -1 : 1;
-            let end_i = (dir == "up") ? -1 : this.no_cells;
-            let condt = function(i, dir){
-                if(dir == "up") return i >= -1;
-                else return i <= grid.cell_no;
-            };
+        for(let i = srt; condt(i, d); i += inc){
+            if(i == end_i){
+                let cell = get_c(dir, end_i - inc, g_i);
+                cell.val = this.val;
+                this.val = 0;
 
-            for(let i = srt; condt(i, dir); i += inc){
-                if(i == end_i){
-                    let r = end_i - inc;
-                    let c = this.grid_c;
+            } else{
+                let n = get_c(dir, i, g_i);
+                let n_v = n.val;
 
-                    grid.grid[r][c].val = this.val;
+                if(n_v == this.val && !n.justMerged){
+                    // merge with neighbour
+                    n.val += this.val;
                     this.val = 0;
-                } else{
-                    let neighbr = grid.grid[i][this.grid_c];
-                    let n_v = neighbr.val;
-
-                    if(n_v == this.val && !neighbr.justMerged){
-                        // merge with neighbour
-                        neighbr.val += this.val;
-                        this.val = 0;
-                        player.score += n_v;
-                        neighbr.justMerged = true;
-                        break;
-                    } else if(n_v && i != srt){
-                        // move cell next to neighbour
-                        grid.grid[i - inc][this.grid_c].val = this.val;
-                        this.val = 0;
-                        break;
-                    } else if(n_v && i == srt){
-                        // cell doesn't move
-                        movedCell = 0;
-                        break;
-                    }
+                    player.score += n_v;
+                    n.justMerged = true;
+                    break;
+                } else if(n_v && i != srt){
+                    // move cell next to neighbour
+                    let cell = get_c(dir, i - inc, g_i);
+                    cell.val = this.val;
+                    this.val = 0;
+                    break;
+                } else if(n_v && i == srt){
+                    // cell doesn't move
+                    movedCell = 0;
+                    break;
                 }
             }
-        }
-        else{
-            movedCell = 0;
         }
 
         return movedCell;
