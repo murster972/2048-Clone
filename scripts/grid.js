@@ -147,9 +147,6 @@ class Grid{
     }
 
     updateCells(dir){
-        //TODO: Make cells move ALL way  to left, right, etc. not just move
-        //      by one cell
-
         var srt, inc, d;
 
         if(dir == "left" || dir == "up"){

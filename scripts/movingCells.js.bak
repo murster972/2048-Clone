@@ -1,0 +1,96 @@
+if(dir == "left" && this.grid_c > 0){
+    // stops if at edge or neighbour in way
+    for(let i = this.grid_c - 1; i >= -1; i--){
+        if(i == -1){
+            grid.grid[this.grid_r][0].val = this.val;
+            this.val = 0;
+            break;
+        }
+
+        var neighbour = grid.grid[this.grid_r][i];
+        if(neighbour.val == this.val && !neighbour.justMerged){
+            neighbour.val += this.val;
+            player.score += neighbour.val;
+            this.val = 0;
+            neighbour.justMerged = 1;
+            break;
+        } else if(neighbour.val != 0 && i != this.grid_c - 1){
+            grid.grid[this.grid_r][i + 1].val = this.val;
+            this.val = 0;
+            break;
+        } else if(neighbour.val != 0 && i == this.grid_c - 1){
+            movedCell = 0;
+            break;
+        }
+    }
+
+} else if(dir == "right" && this.grid_c < this.no_cells - 1){
+    for(let i = this.grid_c + 1; i <= this.no_cells; i++){
+        if(i == this.no_cells){
+            grid.grid[this.grid_r][this.no_cells - 1].val = this.val;
+            this.val = 0;
+            break;else return i < this.last_c;
+        }
+        var neighbour = grid.grid[this.grid_r][i];
+        if(neighbour.val == this.val && !neighbour.justMerged){
+            neighbour.val += this.val;
+            player.score += neighbour.val;
+            this.val = 0;
+            neighbour.justMerged = 1;
+            break;
+        } else if(neighbour.val != 0 && i != this.grid_c + 1){
+            grid.grid[this.grid_r][i - 1].val = this.val;
+            this.val = 0;
+            break;
+        } else if(neighbour.val != 0 && i == this.grid_c + 1){
+            movedCell = 0;
+            break;
+        }
+    }
+} else if(dir == "up" && this.grid_r > 0){
+    for(let i = this.grid_r - 1; i >= -1; i--){
+        if(i == -1){
+            grid.grid[0][this.grid_c].val = this.val;
+            this.val = 0;
+            break;
+        }
+        var neighbour = grid.grid[i][this.grid_c];
+        if(neighbour.val == this.val && !neighbour.justMerged){
+            neighbour.val += this.val;
+            player.score += neighbour.val;
+            this.val = 0;
+            neighbour.justMerged = 1;
+            break;
+        } else if(neighbour.val != 0 && i != this.grid_r - 1){
+            grid.grid[i + 1][this.grid_c].val = this.val;
+            this.val = 0;
+            break;
+        } else if(neighbour.val != 0 && i == this.grid_r - 1){
+            movedCell = 0;
+            break;
+        }
+    }
+} else if(dir == "down" && this.grid_r < this.no_cells - 1){
+    for(let i = this.grid_r + 1; i <= this.no_cells; i++){
+        if(i == this.no_cells){
+            grid.grid[this.no_cells - 1][this.grid_c].val = this.val;
+            this.val = 0;
+            break;
+        }
+        var neighbour = grid.grid[i][this.grid_c];
+        if(neighbour.val == this.val && !neighbour.justMerged){
+            neighbour.val += this.val;
+            player.score += neighbour.val;
+            this.val = 0;
+            neighbour.justMerged = 1;
+            break;
+        } else if(neighbour.val != 0 && i != this.grid_r + 1){
+            grid.grid[i - 1][this.grid_c].val = this.val;
+            this.val = 0;
+            break;
+        } else if(neighbour.val != 0 && i == this.grid_r + 1){
+            movedCell = 0;
+            break;
+        }
+    }
+} 

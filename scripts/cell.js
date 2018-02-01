@@ -106,7 +106,6 @@ class Cell{
                 }
             }
         }
-
         else if(dir == "up" && this.grid_r > 0){
             for(let i = this.grid_r - 1; i >= -1; i--){
                 if(i == -1){
@@ -153,7 +152,8 @@ class Cell{
                     break;
                 }
             }
-        } else{
+        }
+        else{
             movedCell = 0;
         }
 

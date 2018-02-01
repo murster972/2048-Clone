@@ -29,7 +29,7 @@ function setup(){
 }
 
 function draw(){
-    background(0);
+    background(255);
 
     fill(205,193,180);
     strokeWeight(10);
