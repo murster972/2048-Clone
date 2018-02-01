@@ -106,50 +106,43 @@ class Cell{
                 }
             }
         }
-        else if(dir == "up" && this.grid_r > 0){
-            for(let i = this.grid_r - 1; i >= -1; i--){
-                if(i == -1){
-                    grid.grid[0][this.grid_c].val = this.val;
+        if(dir == "up" && this.grid_r > 0 || dir == "down" && this.grid_r < this.last_c){
+            let srt = this.grid_r + ((dir == "up") ? -1 : 1);
+            let inc = (dir == "up") ? -1 : 1;
+            let end_i = (dir == "up") ? -1 : this.no_cells;
+            let condt = function(i, dir){
+                if(dir == "up") return i >= -1;
+                else return i <= grid.cell_no;
+            };
+
+            for(let i = srt; condt(i, dir); i += inc){
+                if(i == end_i){
+                    let r = end_i - inc;
+                    let c = this.grid_c;
+
+                    grid.grid[r][c].val = this.val;
                     this.val = 0;
-                    break;
-                }
-                var neighbour = grid.grid[i][this.grid_c];
-                if(neighbour.val == this.val && !neighbour.justMerged){
-                    neighbour.val += this.val;
-                    player.score += neighbour.val;
-                    this.val = 0;
-                    neighbour.justMerged = 1;
-                    break;
-                } else if(neighbour.val != 0 && i != this.grid_r - 1){
-                    grid.grid[i + 1][this.grid_c].val = this.val;
-                    this.val = 0;
-                    break;
-                } else if(neighbour.val != 0 && i == this.grid_r - 1){
-                    movedCell = 0;
-                    break;
-                }
-            }
-        } else if(dir == "down" && this.grid_r < this.no_cells - 1){
-            for(let i = this.grid_r + 1; i <= this.no_cells; i++){
-                if(i == this.no_cells){
-                    grid.grid[this.no_cells - 1][this.grid_c].val = this.val;
-                    this.val = 0;
-                    break;
-                }
-                var neighbour = grid.grid[i][this.grid_c];
-                if(neighbour.val == this.val && !neighbour.justMerged){
-                    neighbour.val += this.val;
-                    player.score += neighbour.val;
-                    this.val = 0;
-                    neighbour.justMerged = 1;
-                    break;
-                } else if(neighbour.val != 0 && i != this.grid_r + 1){
-                    grid.grid[i - 1][this.grid_c].val = this.val;
-                    this.val = 0;
-                    break;
-                } else if(neighbour.val != 0 && i == this.grid_r + 1){
-                    movedCell = 0;
-                    break;
+                } else{
+                    let neighbr = grid.grid[i][this.grid_c];
+                    let n_v = neighbr.val;
+
+                    if(n_v == this.val && !neighbr.justMerged){
+                        // merge with neighbour
+                        neighbr.val += this.val;
+                        this.val = 0;
+                        player.score += n_v;
+                        neighbr.justMerged = true;
+                        break;
+                    } else if(n_v && i != srt){
+                        // move cell next to neighbour
+                        grid.grid[i - inc][this.grid_c].val = this.val;
+                        this.val = 0;
+                        break;
+                    } else if(n_v && i == srt){
+                        // cell doesn't move
+                        movedCell = 0;
+                        break;
+                    }
                 }
             }
         }
