@@ -118,6 +118,9 @@ class Cell{
                     this.val = 0;
                     player.score += n_v;
                     n.justMerged = true;
+
+                    if(n.val == 2048) player.won += 1;
+
                     break;
                 } else if(n_v && i != srt){
                     // move cell next to neighbour

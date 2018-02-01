@@ -7,6 +7,9 @@ var scoreText;
 
 var touch = {s: {x: 0, y: 0}, e: {x: 0, y: 0}};
 
+var wonTimerInterval;
+var winScreenOpacity = 0;
+
 function setup(){
     let title = "<h1 id='title'>2048 Clone</h1>"
 
@@ -16,7 +19,7 @@ function setup(){
 
     translate(10, 10);
 
-    player = {score: 0, prev_score: 0, won: 0};
+    player = {score: 0, prev_score: 0, won: 0, };
 
     scoreText = document.getElementById("score");
 
@@ -46,10 +49,44 @@ function draw(){
 
     scoreText.innerHTML = "Score: " + player.score;
 
-    if(player.won){
-        
+    if(player.won == 1){
+        player.won += 1;
+        player.wonTimer = 100;
+
+        wonTimerInterval = setInterval(function(){
+            if(winScreenOpacity <= 200){
+                winScreenOpacity += 7;
+                return 0;
+            }
+
+            if(player.wonTimer == 0){
+                clearInterval(wonTimerInterval);
+                winScreenOpacity = 0;
+            } else{
+                player.wonTimer -= 1;
+            }
+        }, 5);
     }
 
+    if(player.wonTimer) winScreen("Winner!");
+}
+
+function winScreen(txt){
+    stroke(211,183,102, winScreenOpacity);
+    fill(211,183,102, winScreenOpacity);
+    rect(10, 10, wh, wh, 10);
+
+    if(winScreenOpacity != 200){
+        stroke(255, 255, 255, winScreenOpacity);
+        fill(255, 255, 255, winScreenOpacity);
+    } else{
+        stroke(255);
+        fill(255);
+    }
+
+    strokeWeight(1);
+    textAlign(CENTER);
+    text("You Win!", 207, 222);
 }
 
 function keyPressed(){
