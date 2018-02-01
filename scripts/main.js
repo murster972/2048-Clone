@@ -5,6 +5,8 @@ var cell_size = 400 / cell_no;
 
 var scoreText;
 
+var touch = {s: {x: 0, y: 0}, e: {x: 0, y: 0}};
+
 function setup(){
     createCanvas(420, 420);
 
@@ -79,4 +81,24 @@ function keyPressed(){
     }
 
     return false;
+}
+
+function touchStarted(){
+    touch.s = {x: mouseX, y: mouseY};
+}
+
+function touchEnded(){
+    touch.e = {x: mouseX, y: mouseY};
+
+    let errorCorrection = 50;
+
+    // left and right swipes
+    // takes into account a swipe wont be completly straight
+    if(touch.e.y > touch.s.y - errorCorrection && touch.e.y < touch.s.y + errorCorrection){
+        d = (touch.e.x > touch.s.x) ? "right" : "left";
+    } else{
+        d = (touch.e.y > touch.s.y) ? "down" : "up";
+    }
+
+    grid.updateCells(d);
 }
