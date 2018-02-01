@@ -59,6 +59,11 @@ class Cell{
         }
     }
 
+    // trying to find a way to animate cell movement
+    testAnimate(){
+
+    }
+
     // moves cell according to dir and neighbours in direction dir
     move(dir){
         let movedCell = 1;

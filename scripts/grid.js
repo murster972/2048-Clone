@@ -51,62 +51,6 @@ class Grid{
         }
     }
 
-    testAnimate(dir, r, c, tr, tc){
-        var cur_c = this.grid[r][c];
-        this.tmpCell = _.cloneDeep(cur_c);
-
-
-        this.targCell = this.grid[tr][tc];
-
-        cur_c.val = 0;
-
-        this.movingCell = true;
-
-        if(dir == "left" || dir == "right"){
-            this.intervalID = setInterval(function(){
-                let tmp = function(dir){
-                    if(dir == "left") return grid.tmpCell.pos.x > grid.targCell.pos.x + 1;
-                    else return grid.tmpCell.pos.x < grid.targCell.pos.x - 1;
-                }
-
-                if(tmp(dir)){
-                    grid.tmpCell.pos.x += (dir == "left") ? -5 : 5;
-                } else{
-                    grid.tmpCell.pos.x = grid.targCell.pos.x;
-
-                    grid.targCell.val += grid.tmpCell.val;
-
-                    grid.movingCell = false;
-                    grid.tmpCell = null;
-
-                    clearInterval(grid.intervalID);
-                    console.log("finished");
-                }
-            }, 10);
-        } else{
-            this.intervalID = setInterval(function(){
-                let tmp = function(dir){
-                    if(dir == "top") return grid.tmpCell.pos.y > grid.targCell.pos.y + 1;
-                    else return grid.tmpCell.pos.y < grid.targCell.pos.y - 1;
-                }
-
-                if(tmp(dir)){
-                    grid.tmpCell.pos.y += (dir == "top") ? -5 : 5;
-                } else{
-                    grid.tmpCell.pos.y = grid.targCell.pos.y;
-
-                    grid.targCell.val += grid.tmpCell.val;
-
-                    grid.movingCell = false;
-                    grid.tmpCell = null;
-
-                    clearInterval(grid.intervalID);
-                    console.log("finished");
-                }
-            }, 10);
-        }
-    }
-
     insertNewValue(){
         let vals = [2, 4];
         let emptyCells = this._getEmptyCells();

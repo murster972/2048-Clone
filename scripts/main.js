@@ -1,5 +1,5 @@
 var grid, player;
-var wh = window.innerWidth;
+var wh = 400;
 var cell_no = 4;
 var cell_size = wh / cell_no;
 
