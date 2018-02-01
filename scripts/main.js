@@ -21,11 +21,11 @@ function setup(){
     // grid.grid[2][0].val = 2048;
     // grid.grid[3][0].val = 4096;
 
-    grid.grid[2][0].val = 8;
+    //grid.grid[2][0].val = 8;
     //grid.grid[0][2].val = 2;
     //grid.grid[0][3].val = 2;
 
-    // grid.init();
+    grid.init();
 }
 
 function draw(){
