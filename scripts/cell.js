@@ -70,7 +70,7 @@ class Cell{
 
 
     // moves cell according to dir and neighbours in direction dir
-    move(dir){
+    move(dir, lostTest){
         let movedCell = 1;
 
         this.justMerged = 0;
@@ -103,6 +103,7 @@ class Cell{
 
         for(let i = srt; condt(i, d); i += inc){
             if(i == end_i){
+                if(lostTest) break;
                 let cell = get_c(dir, end_i - inc, g_i);
 
                 cell.val = this.val;
@@ -112,7 +113,7 @@ class Cell{
                 let n = get_c(dir, i, g_i);
                 let n_v = n.val;
 
-                if(n_v == this.val && !n.justMerged){
+                if(n_v == this.val && !n.justMerged && !lostTest){
                     // merge with neighbour
                     n.val += this.val;
                     this.val = 0;
@@ -122,7 +123,7 @@ class Cell{
                     if(n.val == 2048) player.won += 1;
 
                     break;
-                } else if(n_v && i != srt){
+                } else if(n_v && i != srt && !lostTest){
                     // move cell next to neighbour
                     let cell = get_c(dir, i - inc, g_i);
                     cell.val = this.val;

@@ -5,6 +5,10 @@
     font-family: 'Fira Sans';
 }
 
+*::selection{
+    opacity: 0;
+}
+
 body{
     display: flex;
     flex-direction: column-reverse;
@@ -12,9 +16,6 @@ body{
     justify-content: center;
     padding-top: 20px;
     background-color: #fbf8f1;
-}
-canvas{
-
 }
 
 #title{

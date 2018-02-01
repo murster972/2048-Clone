@@ -26,8 +26,7 @@ class Grid{
 
     // clears and sets to random cells as starting values
     init(){
-        player.score = 0;
-        player.prev_score = 0;
+        player = {score: 0, prev_score: 0, won: 0, lost: 0};
 
         this.prev_grid = null;
 
@@ -49,6 +48,24 @@ class Grid{
             g.val = 2;
             i += 1
         }
+    }
+
+    lostTest(){
+        //NOTE: not currently working
+
+        let d = ["left", "right", "up", "down"];
+        let moved = 0;
+
+        for(let i = 0; i < d.length; i++){
+            let m = this.updateCells(d[i], true);
+
+            if(m){
+                moved = 1;
+                break;
+            }
+        }
+
+        if(!moved) player.lost = true;
     }
 
     insertNewValue(){
@@ -90,7 +107,7 @@ class Grid{
         }
     }
 
-    updateCells(dir){
+    updateCells(dir, lostTest){
         var srt, inc, d;
 
         if(dir == "left" || dir == "up"){
@@ -107,18 +124,22 @@ class Grid{
             return d ? x < n : x >= 0;
         }
 
-        this.prev_grid = _.cloneDeep(this.grid);
-        player.prev_score = player.score;
+        if(!lostTest){
+            this.prev_grid = _.cloneDeep(this.grid);
+            player.prev_score = player.score;
+        }
 
         let cellsMoved = 0;
 
         for(let r = srt; loop_check(r, this.cell_no, d); r += inc){
             for(let c = srt; loop_check(c, this.cell_no, d); c += inc){
-                cellsMoved += this.grid[r][c].move(dir);
+                cellsMoved += this.grid[r][c].move(dir, lostTest);
             }
         }
 
-        if(cellsMoved) this.insertNewValue();
+        if(cellsMoved && !lostTest) this.insertNewValue();
+
+        if(lostTest) return cellsMoved;
     }
 
     undoMove(){

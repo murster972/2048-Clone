@@ -10,6 +10,12 @@ var touch = {s: {x: 0, y: 0}, e: {x: 0, y: 0}};
 var wonTimerInterval;
 var winScreenOpacity = 0;
 
+
+
+//TODO: make it player can lose
+
+
+
 function setup(){
     let title = "<h1 id='title'>2048 Clone</h1>"
 
@@ -19,7 +25,7 @@ function setup(){
 
     translate(10, 10);
 
-    player = {score: 0, prev_score: 0, won: 0, };
+    player = {score: 0, prev_score: 0, won: 0, lost: 0};
 
     scoreText = document.getElementById("score");
 
@@ -35,6 +41,7 @@ function setup(){
     //grid.grid[0][3].val = 2;
 
     grid.init();
+    //grid.lostTest();
 }
 
 function draw(){
@@ -48,6 +55,12 @@ function draw(){
     grid.show();
 
     scoreText.innerHTML = "Score: " + player.score;
+
+    if(player.lost){
+        //console.log("LOST!");
+    } else{
+        grid.lostTest();
+    }
 
     if(player.won == 1){
         player.won += 1;
@@ -90,12 +103,6 @@ function winScreen(txt){
 }
 
 function keyPressed(){
-    // grid.testAnimate("top", 3, 0, 1, 2);
-    //
-    // return false;
-
-    if(grid.movingCell) return -1;
-
     switch(keyCode){
         case LEFT_ARROW:
             grid.updateCells("left");
