@@ -1,7 +1,7 @@
 var grid, player;
-var wh = 400;
+var wh = window.innerWidth;
 var cell_no = 4;
-var cell_size = 400 / cell_no;
+var cell_size = wh / cell_no;
 
 var scoreText;
 
