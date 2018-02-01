@@ -1,0 +1,58 @@
+*{
+    padding: 0;
+    margin: 0;
+
+    font-family: 'Fira Sans';
+}
+
+body{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    background-color: #fbf8f1;
+}
+canvas{
+
+}
+
+#title{
+    color: #7b6d63;
+    padding: 10px 5px 10px 5px;
+}
+
+#game_info{
+    width: 400px;
+    height: auto;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#score{
+    font-size: 30px;
+    color: #7b6d63;
+}
+
+#butn_cont{
+    width: auto;
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.butn{
+    width: auto;
+    height: 25px;
+    padding: 5px 20px 5px 20px;
+    background-color: #bbada2;
+    color: #fff;
+    font-size: 20px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+}

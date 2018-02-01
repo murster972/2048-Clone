@@ -8,11 +8,15 @@ var scoreText;
 var touch = {s: {x: 0, y: 0}, e: {x: 0, y: 0}};
 
 function setup(){
+    let title = "<h1 id='title'>2048 Clone</h1>"
+
     createCanvas(420, 420);
+
+    document.body.insertAdjacentHTML("beforeend", title);
 
     translate(10, 10);
 
-    player = {score: 0, prev_score: 0};
+    player = {score: 0, prev_score: 0, won: 0};
 
     scoreText = document.getElementById("score");
 
@@ -23,7 +27,7 @@ function setup(){
     // grid.grid[2][0].val = 2048;
     // grid.grid[3][0].val = 4096;
 
-    //grid.grid[2][0].val = 8;
+    grid.grid[2][3].val = 8;
     //grid.grid[0][2].val = 2;
     //grid.grid[0][3].val = 2;
 
@@ -31,25 +35,19 @@ function setup(){
 }
 
 function draw(){
-    background(255);
+    background("#fbf8f1");
 
     fill(205,193,180);
     strokeWeight(10);
     stroke(187,173,160);
     rect(10, 10, wh, wh, 10);
 
-    scoreText.innerHTML = "Score: " + player.score;
-
-    // textSize(20);
-    // noStroke();
-    // fill(255);
-    // textAlign(LEFT);
-    // text("Score: " + player.score, 20, 450);
-
     grid.show();
 
-    if(grid.movingCell){
-        grid.tmpCell.show(1);
+    scoreText.innerHTML = "Score: " + player.score;
+
+    if(player.won){
+        
     }
 
 }
@@ -100,5 +98,5 @@ function touchEnded(){
         d = (touch.e.y > touch.s.y) ? "down" : "up";
     }
 
-    grid.updateCells(d);
+    //grid.updateCells(d);
 }

@@ -2,6 +2,8 @@ var bgColours = {0: "#cdc1b4", 2: "#eee4da", 4: "#ede0c8", 8: "#f2b179", 16: "#f
                  32: "#f67c5f", 64: "#f65e3b", 128: "#edcf72", 256: "#eecc5f",
                  512: "#edc750", 1024: "#edc440", 2048: "#ecc12e"};
 
+var tmpCell;
+
 class Cell{
     constructor(size, pos, r, c, g_size, val){
         this.size = size;
@@ -18,6 +20,13 @@ class Cell{
 
         // If cell created by merging, stores the two cells merged
         this.madeOf = [null, null];
+
+
+        this.isMoving = false;
+        this.tmpCell = null;
+        this.interval = null;
+        this.targR = 0;
+        this.targC = 0;
     }
 
     show(isTmp){
@@ -59,10 +68,6 @@ class Cell{
         }
     }
 
-    // trying to find a way to animate cell movement
-    testAnimate(){
-
-    }
 
     // moves cell according to dir and neighbours in direction dir
     move(dir){
@@ -99,9 +104,10 @@ class Cell{
         for(let i = srt; condt(i, d); i += inc){
             if(i == end_i){
                 let cell = get_c(dir, end_i - inc, g_i);
-                cell.val = this.val;
-                this.val = 0;
 
+                cell.val = this.val;
+
+                this.val = 0;
             } else{
                 let n = get_c(dir, i, g_i);
                 let n_v = n.val;
