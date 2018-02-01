@@ -106,7 +106,8 @@ class Cell{
                 }
             }
         }
-        if(dir == "up" && this.grid_r > 0 || dir == "down" && this.grid_r < this.last_c){
+
+        else if(dir == "up" && this.grid_r > 0 || dir == "down" && this.grid_r < this.last_c){
             let srt = this.grid_r + ((dir == "up") ? -1 : 1);
             let inc = (dir == "up") ? -1 : 1;
             let end_i = (dir == "up") ? -1 : this.no_cells;
