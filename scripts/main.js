@@ -28,8 +28,7 @@ function setup(){
 
     grid = new Grid(wh, cell_no, cell_size);
 
-    //grid.init();
-    grid.insertNewValue();
+    grid.init();
 }
 
 function draw(){
@@ -102,7 +101,6 @@ function winLostScreen(o, txt){
 }
 
 function keyPressed(){
-    return 0;
     if(player.lost) return 0;
 
     switch(keyCode){
@@ -144,5 +142,5 @@ function touchEnded(){
         d = (touch.e.y > touch.s.y) ? "down" : "up";
     }
 
-    //grid.updateCells(d);
+   grid.updateCells(d);
 }
