@@ -49,12 +49,10 @@ class Cell{
         //rect(this.pos.x, this.pos.y, this.size, this.size, 10);
 
         if(this.val != 0){
-            //TODO: CENTER THE TEXT
             let fg = (this.val <= 4) ? "#898077" : "#fff";
 
             strokeWeight(1);
             stroke(fg);
-            //noStroke()
             fill(fg);
 
             textSize(35);
@@ -73,7 +71,8 @@ class Cell{
     move(dir, lostTest){
         let movedCell = 1;
 
-        this.justMerged = 0;
+        if(!lostTest) this.justMerged = 0;
+
         if(this.val == 0) return 0;
 
         if(dir == "left" && this.grid_c == 0 || dir == "right" && this.grid_c == this.last_c) return 0;
@@ -113,7 +112,8 @@ class Cell{
                 let n = get_c(dir, i, g_i);
                 let n_v = n.val;
 
-                if(n_v == this.val && !n.justMerged && !lostTest){
+                if(n_v == this.val && !n.justMerged){
+                    if(lostTest) break;
                     // merge with neighbour
                     n.val += this.val;
                     this.val = 0;
@@ -123,7 +123,8 @@ class Cell{
                     if(n.val == 2048) player.won += 1;
 
                     break;
-                } else if(n_v && i != srt && !lostTest){
+                } else if(n_v && i != srt){
+                    if(lostTest) break;
                     // move cell next to neighbour
                     let cell = get_c(dir, i - inc, g_i);
                     cell.val = this.val;

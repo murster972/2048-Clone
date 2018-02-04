@@ -27,6 +27,7 @@ class Grid{
     // clears and sets to random cells as starting values
     init(){
         player = {score: 0, prev_score: 0, won: 0, lost: 0};
+        clear(lostInterval);
 
         this.prev_grid = null;
 
@@ -51,8 +52,6 @@ class Grid{
     }
 
     lostTest(){
-        //NOTE: not currently working
-
         let d = ["left", "right", "up", "down"];
         let moved = 0;
 
@@ -65,17 +64,14 @@ class Grid{
             }
         }
 
-        if(!moved) player.lost = true;
+        if(!moved){
+            player.lost += 1;
+        }
     }
 
     insertNewValue(){
         let vals = [2, 4];
         let emptyCells = this._getEmptyCells();
-
-        if(!emptyCells.length){
-            console.log("Invalid Move.");
-            return -1;
-        }
 
         let i = floor(random(emptyCells.length));
         let cr = emptyCells[i];

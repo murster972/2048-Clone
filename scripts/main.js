@@ -10,11 +10,8 @@ var touch = {s: {x: 0, y: 0}, e: {x: 0, y: 0}};
 var wonTimerInterval;
 var winScreenOpacity = 0;
 
-
-
-//TODO: make it player can lose
-
-
+var lostScreenOpacity = 0;
+var lostInterval;
 
 function setup(){
     let title = "<h1 id='title'>2048 Clone</h1>"
@@ -31,17 +28,8 @@ function setup(){
 
     grid = new Grid(wh, cell_no, cell_size);
 
-    // grid.grid[0][0].val = 512;
-    // grid.grid[1][0].val = 1024;
-    // grid.grid[2][0].val = 2048;
-    // grid.grid[3][0].val = 4096;
-
-    grid.grid[2][3].val = 8;
-    //grid.grid[0][2].val = 2;
-    //grid.grid[0][3].val = 2;
-
-    grid.init();
-    //grid.lostTest();
+    //grid.init();
+    grid.insertNewValue();
 }
 
 function draw(){
@@ -56,10 +44,21 @@ function draw(){
 
     scoreText.innerHTML = "Score: " + player.score;
 
-    if(player.lost){
-        //console.log("LOST!");
-    } else{
+    if(player.lost == 1){
+        lostScreenOpacity = 0;
+
+        lostInterval = setInterval(function(){
+            if(lostScreenOpacity <= 200){
+                lostScreenOpacity += 7;
+            }
+        }, 5)
+
+        player.lost += 1
+
+    } else if(!player.lost){
         grid.lostTest();
+    } else{
+        winLostScreen(lostScreenOpacity, "Game Over!")
     }
 
     if(player.won == 1){
@@ -81,17 +80,17 @@ function draw(){
         }, 5);
     }
 
-    if(player.wonTimer) winScreen("Winner!");
+    if(player.wonTimer) winLostScreen(winScreenOpacity, "You Win!");
 }
 
-function winScreen(txt){
-    stroke(211,183,102, winScreenOpacity);
-    fill(211,183,102, winScreenOpacity);
+function winLostScreen(o, txt){
+    stroke(211,183,102, o);
+    fill(211,183,102, o);
     rect(10, 10, wh, wh, 10);
 
-    if(winScreenOpacity != 200){
-        stroke(255, 255, 255, winScreenOpacity);
-        fill(255, 255, 255, winScreenOpacity);
+    if(o <= 200){
+        stroke(255, 255, 255, o);
+        fill(255, 255, 255, o);
     } else{
         stroke(255);
         fill(255);
@@ -99,10 +98,13 @@ function winScreen(txt){
 
     strokeWeight(1);
     textAlign(CENTER);
-    text("You Win!", 207, 222);
+    text(txt, 207, 222);
 }
 
 function keyPressed(){
+    return 0;
+    if(player.lost) return 0;
+
     switch(keyCode){
         case LEFT_ARROW:
             grid.updateCells("left");
